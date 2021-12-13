@@ -9,8 +9,5 @@ export default function Appointment(props) {
       return `Appointment at ${props.time}`
     }
   }
-
-   return (
-<article className="appointment">{apptTime()}</article>
-   );
- }
+  return <article className="appointment">{apptTime()}</article>
+}
