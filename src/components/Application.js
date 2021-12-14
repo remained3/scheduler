@@ -1,8 +1,14 @@
 import React, { useState } from "react";
-import "components/Application.scss";
+import { Axios } from "axios";
+
+//components
 import DayList from "./DayList";
 import InterviewerList from "./InterviewerList";
 import Appointment from "./Appointment";
+
+//styling
+import "components/Application.scss";
+
 
 const appointments = [
   {
@@ -79,7 +85,8 @@ const days = [
 export default function Application(props) {
 
   const [day, setDay] = useState("Monday");
-  
+  const parsedSchedule = appointments.map((appointment) =>
+   <Appointment key={appointment.id} {...appointment} />);
 
   return (
     <main className="layout">
@@ -95,7 +102,7 @@ export default function Application(props) {
       />
       </section>
       <section className="schedule">
-      {schedule}
+      {parsedSchedule}
         <Appointment key="last" time="5pm" />
       </section>
     </main>
