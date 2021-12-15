@@ -5,10 +5,12 @@ import axios from "axios";
 import DayList from "./DayList";
 import InterviewerList from "./InterviewerList";
 import Appointment from "./Appointment";
-import { getAppointmentsForDay, getInterview } from "helpers/selectors";
+import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors";
 
 //styling
 import "components/Application.scss";
+
+
 
 export default function Application(props) {
 
@@ -34,7 +36,28 @@ const setDay = day => setState(prev => ({...prev, day}));
   });
   }, [])
  
+  function bookInterview(id, interview) {
+    //console.log(id, interview);
+    const appointment = {
+      ...state.appointments[id],
+      interview: {...interview}
+    };
+
+    const appointments = {
+      ...state.appointments,
+      [id]:appointment
+    };
+
+    return axios
+    .put(`/api/appointments/${id}`, {interview})
+    .then (() => {
+      setState(prev => ({... prev, appointments}));
+    })
+  }
+
   const appointments = getAppointmentsForDay(state, state.day);
+  const interviewers = getInterviewersForDay(state, state.day);
+
   const parsedSchedule = appointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview);
     return (
@@ -42,7 +65,10 @@ const setDay = day => setState(prev => ({...prev, day}));
       key={appointment.id}
       id={appointment.id}
       time={appointment.time}
-      interview={interview} />
+      interview={interview}
+      interviewers={interviewers}
+      bookInterview={bookInterview}
+       />
     );
   });
 
