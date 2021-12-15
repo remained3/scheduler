@@ -14,30 +14,17 @@ export function getAppointmentsForDay(state, day) {
   return result;
 }
 
-export function getInterview(state, interview) {
-  let result;
-  if(!interview) {
-
-   result = null;
-  } else {
-    const interviewObj = {};
-    interviewObj.student = interview.student;
-    const interviewers = state.interviewers;
-    interviewObj.interviewer = interviewers[`${interview.interviewer}`]
-    
-    result = interviewObj; 
+export function getInterview (state, interview) {
+  if (!interview) {
+    return null;
   }
-  return result;
+  const id = interview.interviewer
+  return {
+    student:interview.student,
+    interviewer: {
+      id: id,
+      name: state.interviewers[id].name,
+      avatar: state.interviewers[id].avatar
+    }
   }
-
-  export function getInterviewersForDay(state, day) {
-    const result = [];
-    state.days.forEach(item => {
-      if(item.name === day){
-        item.interviewers.forEach(interviewerId => {
-          result.push(state.interviewers[`${interviewerId}`])
-        })
-      }
-    })
-    return result;
-  }
+}
