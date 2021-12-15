@@ -51,8 +51,12 @@ const setDay = day => setState(prev => ({...prev, day}));
     return axios
     .put(`/api/appointments/${id}`, {interview})
     .then (() => {
-      setState(prev => ({... prev, appointments}));
+      setState(prev => ({...prev, appointments}));
     })
+  }
+
+  const cancelInterview = (id) => {
+    return axios.delete(`/api/appointments/${id}`)
   }
 
   const appointments = getAppointmentsForDay(state, state.day);
@@ -68,6 +72,7 @@ const setDay = day => setState(prev => ({...prev, day}));
       interview={interview}
       interviewers={interviewers}
       bookInterview={bookInterview}
+      cancelInterview={cancelInterview}
        />
     );
   });
