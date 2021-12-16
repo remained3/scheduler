@@ -10,13 +10,12 @@ import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "help
 
 import "components/Application.scss";
 
-
 export default function Application(props) {
 
   const { 
-    state, 
-    setDay, 
-    bookInterview, 
+    state,
+    setDay,
+    bookInterview,
     cancelInterview} = useApplicationData();
  
   const appointments = getAppointmentsForDay(state, state.day);
