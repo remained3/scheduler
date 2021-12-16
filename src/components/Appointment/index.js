@@ -20,6 +20,8 @@ export default function Appointment(props) {
   const DELETING = "DELETING"
   const EDIT = "EDITING";
   const CONFIRM = "CONFIRM";
+  const ERROR_SAVE = "ERROR_SAVE";
+  const ERROR_DELETE = "ERROR_DELETE";
 
    const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
@@ -32,14 +34,15 @@ export default function Appointment(props) {
     };
     transition(SAVING);
     props.bookInterview(props.id, interview)
-    .then(() => transition(SHOW));
+    .then(() => transition(SHOW))
+    .catch(error => transition(ERROR_SAVE, true));
   };
 
   function deleteAppointment() {
     transition(DELETING);
     Promise.resolve(props.cancelInterview(props.id))
     .then(() => transition(EMPTY))
-    .catch(error => console.log(error))
+    .catch(error => transition(ERROR_DELETE, true))
   }
 
 
@@ -71,6 +74,12 @@ export default function Appointment(props) {
     message="Are you sure you would like delete this interview?"/>)}
       
     {mode === DELETING && (<Status message="Deleting" /> )}
+
+    {mode === ERROR_DELETE && (<Error message ="There was an error cancelling appointment"
+    onCancel={() => transition(SHOW)} /> )}
+
+    {mode === ERROR_SAVE && (<Error message = "Failed to save appointment"
+    onCancel={() => transition(SHOW)} /> )}
 
     </article>
   );  
