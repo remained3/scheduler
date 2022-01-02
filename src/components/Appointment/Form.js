@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import InterviewerList from "components/InterviewerList";
 import Button from "components/Button";
 
-export default function Form (props) {
+export default function Form(props) {
 
   const [student, setStudent] = useState(props.student || "");
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
@@ -10,7 +10,7 @@ export default function Form (props) {
 
   //clear form of data
   const reset = () => {
-    setInterviewer("null");
+    setInterviewer(null);
     setStudent("");
     setError("");
   }
@@ -26,6 +26,7 @@ export default function Form (props) {
       setError("student name cannot be blank");
       return;
     }
+    setError("");
     props.onSave(student, interviewer)
   }
 
