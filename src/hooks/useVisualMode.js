@@ -8,7 +8,7 @@ export default function useVisualMode(initial) {
     setMode(newMode);
     if (replace === true) {
       let newHistory = [...history];
-      newHistory[history.length - 1] = newMode;
+      newHistory.splice([newHistory.length], 1, newMode)
       setHistory(newHistory);
     } else {
       let newHistory = [...history, newMode];
